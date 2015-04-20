@@ -14,6 +14,7 @@
 ## Getting Started
 
 git clone https://github.com/ChrisSheu/c-git.git<br>
+cd c-git/<br>
 git checkout origin/ntp_client -b [yourbranch_name]
 
 ## Usage
