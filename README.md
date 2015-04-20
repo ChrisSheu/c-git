@@ -35,13 +35,13 @@ git checkout origin/share_memory -b [yourbranch-name]
 * shm_read result:
 
 <div>
-<img src="https://raw.githubusercontent.com/ChrisSheu/C_shared_memory/master/tree/share_memory/docs/read.png" align="left|bottom" height="300" width="400">
+<img src="https://raw.githubusercontent.com/ChrisSheu/c-git/share_memory/docs/read.png" align="left|bottom" height="300" width="400">
 </div>
 
 * shm_write result:
 
 <div>
-<img src="https://raw.githubusercontent.com/ChrisSheu/C_shared_memory/master/tree/share_memory/docs/write.png" align="left|bottom" height="300" width="400">
+<img src="https://raw.githubusercontent.com/ChrisSheu/c-git/share_memory/docs/write.png" align="left|bottom" height="300" width="400">
 </div>
 
 ## License
