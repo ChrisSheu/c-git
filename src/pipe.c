@@ -5,7 +5,13 @@
 #include <pthread.h>
 #include <errno.h>
 
-
+/* [pipe] function.
+ * 1.one-way pipe , fd[0]:read, fd[1]:write.
+ * 2.success 0, else -1 and check errno.
+ * 3.Buffer is 4096 bytes before linux 2.6.11, and then 65535 bytes.
+ * 4.I/O FIFO method.
+ * 5.when end of read have been closed according TCP protocol RST response packet, a write will cause a SIGPIPE signal to be generated.
+ */
 void readpipe(void *r_fd)
 {
     int ret = 0;
