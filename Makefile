@@ -11,7 +11,7 @@ OBJDUMP       = $(CROSS_COMPILE)objdump
 
 
 INCS = -I ./ -I include/
-CFLAGS = $(INCS) 
+CFLAGS = $(INCS)
 
 DUP_OBJS = src/dup_dup2.o
 
