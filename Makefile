@@ -22,7 +22,7 @@ readv_writev: $(RW_OBJS)
 	-mv $@ output/$@
 	ls -lFh --color output/
 
-all: readv_writev
+all: clean readv_writev
 
 clean:
 	-rm -f src/*.o
