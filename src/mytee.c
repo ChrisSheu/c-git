@@ -2,9 +2,9 @@
  *
  * fd_in  : src fd.
  * fd_out : target fd.
- * len    : copy length.
+ * len    : copy length.(INT_MAX): (32-bit)-2147483647~2147483647(0x7FFFFFFF)
  * flags  :
- *         [SPLICE_F_NONBLOCK] :
+ *         [SPLICE_F_NONBLOCK] : nonblock, but io must be set O_NONBLOCK flag, too.
  *         [SPLICE_F_MORE]     : more data.
  *         [SPLICE_F_MOVE]     : The initial implementation of  this  flag  was  buggy:  therefore starting  in  Linux  2.6.21  it  is  a  no-op.
  *         [SPLICE_F_GIFT]     : unused.
@@ -25,16 +25,14 @@
 #include <time.h>
 #include <fcntl.h>
 
-
+//handle pipefd[0] -> pipestdout[1] via tee function.
 int readpipe_to_stdoutpipe(int srcfd, int desfd)
 {
     int ret = 0;
-    int ret2 = -1;
-
-    char in = 0;
 
     //TODO [tee]   srcfd transfer to desfd. return a number of bytes are written.
-    ret = tee(srcfd,  desfd,  32768, SPLICE_F_NONBLOCK);
+    //why can't use unfixed length[strlen("Hello")]? strlen("Hello") is same with client msg.
+    ret = tee(srcfd,  desfd,  strlen("Hello"), SPLICE_F_NONBLOCK);
     if(ret < 0)
     {
         printf("\n(%s:%d)\033[0;34m tee error...%d, %s \033[m\n",__func__,__LINE__, ret, strerror(errno));
@@ -45,13 +43,13 @@ int readpipe_to_stdoutpipe(int srcfd, int desfd)
 
 }
 
+//a Thread handle pipestdout[0] -> stdout via splice function.
 void stdoutpipe(void *r_fd)
 {
     int ret = 0;
     int ret2 = 0;
     char in;
     static int idx = 0;
-
     printf("\n(%s:%d)\033[0;33m Enter stdoutpipe thread pid:%d!!\033[m\n",__func__,__LINE__, getpid());
 
     while(1)
@@ -78,7 +76,7 @@ int init(int *readfd)
     pthread_t id;
 
     ret = pthread_create(&id,NULL,(void *) stdoutpipe, readfd);
-    if(ret!=0){
+    if(ret != 0){
         printf ("Create pthread error!\n");
         return -1;
     }
@@ -90,7 +88,6 @@ int main(int argc, char *argv[])
 {
     int listenfd = 0, connfd = 0;
     struct sockaddr_in serv_addr;
-
     char c = 0;
     int ret  = -1;
     int ret2  = -1;
@@ -169,7 +166,7 @@ int main(int argc, char *argv[])
             //splice return 0-written length; error -1, check errno.
             while((ret = splice(connfd, NULL, pipefd[1],  NULL, 32768, SPLICE_F_MORE | SPLICE_F_MOVE)) > 0)
             {
-                printf("\n\n(%s:%d)===========================",__func__,__LINE__);  
+                printf("\n\n(%s:%d)===========================",__func__,__LINE__);
                 printf("\n(%s:%d)\033[0;34m connfd\033[m -> \033[0;31mpipefd\033[m success!, splice=%d",__func__,__LINE__, ret);
                 ret2 = readpipe_to_stdoutpipe(pipefd[0], pipestdout[1]);
                 if(ret2 < 0)
@@ -177,7 +174,7 @@ int main(int argc, char *argv[])
                     printf("readpipe error...%d\n", ret2);
                 }
                 else
-                    printf("\n(%s:%d)\033[0;34m \033[0;31mpipefd\033[m -> \033[0;32mpipestdout\033[m success!, tee=%d\033[m",__func__,__LINE__, ret);
+                    printf("\n(%s:%d)\033[0;34m \033[0;31mpipefd\033[m -> \033[0;32mpipestdout\033[m success!, tee=%d\033[m\n",__func__,__LINE__, ret);
             }
             //error return -1;
             if(ret < 0)
@@ -191,5 +188,6 @@ int main(int argc, char *argv[])
         close(connfd);
     }
 
+    return 0;
 }
 
