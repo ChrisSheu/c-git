@@ -21,6 +21,12 @@ int main(int argc, char *argv[])
     char c;
     int ret =-1;
 
+    if(argc < 2)
+    {
+        printf("\n(%s:%d)\033[0;34m exec : ./server <Port>\033[m\n",__func__,__LINE__);
+        return -1;
+    }
+
     listenfd = socket(AF_INET, SOCK_STREAM, 0);
     memset(&serv_addr, '0', sizeof(serv_addr));
     memset(sendBuff, '0', sizeof(sendBuff));
@@ -40,10 +46,7 @@ int main(int argc, char *argv[])
 
         while((ret = read(connfd, &c, 1)) > 0)
         {
-            if(fputs(&c, stdout) == EOF)
-            {
-                printf("\n Error : Fputs error\n");
-            }
+            printf("%c", c);
         }
 
         close(connfd);
