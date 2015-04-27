@@ -11,7 +11,7 @@ OBJDUMP       = $(CROSS_COMPILE)objdump
 
 
 INCS = -I ./ -I include/
-CFLAGS = $(INCS)
+CFLAGS = $(INCS) -pthread
 
 FC_OBJS = src/myfcntl.o
 
