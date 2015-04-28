@@ -7,7 +7,7 @@
  *
  * [warning]:
  *
- * in_fd defaultBuffer size = 8192 bytes.
+ * in_fd Buffer size fail =  0x10000000[268435456 bytes](success...) ~ 0x20000000[536870912 bytes](fail...)
  *
  */
 
@@ -82,13 +82,14 @@ int main(int argc, char**argv)
     else
         printf("\n(%s:%d)\033[0;33m Connect to [%s] Port:%d successfully!\033[m\n",__func__,__LINE__, argv[1], atoi(argv[2]));
 
-    /* init sendfile config */
+    // init sendfile config 
     ret = sendfile_init_config(filefd, &stat_buf, &offset);
     if(ret < 0)
     {
         printf("sendfile_init_config fail...%d\n", ret);
         return -1;
     }
+
     ret = sendfile(sockfd, filefd, &offset, stat_buf.st_size);
     if(ret < 0)
         printf("\n(%s:%d)\033[0;33m sendfile fail...%d\033[m\n",__func__,__LINE__, ret);
@@ -100,6 +101,7 @@ int main(int argc, char**argv)
     /*                 offset*/
     /* reset offset in filefd , otherwise send nothing to  sockfd */
     /* init sendfile config */
+
     ret = sendfile_init_config(filefd, &stat_buf, &offset);
     if(ret < 0)
     {
