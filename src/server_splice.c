@@ -42,7 +42,7 @@ int readpipe(int rfd)
     }
 
     //splice return 0-written length; error -1, check errno.
-    ret = splice(rfd, NULL, filefd, NULL, 32768, SPLICE_F_MORE | SPLICE_F_MOVE);
+    ret = splice(rfd, NULL, filefd, NULL, 15, SPLICE_F_MORE | SPLICE_F_MOVE);
     if(ret < 0)
     {
         printf("splice error...%d, %s\n", ret, strerror(errno));
