@@ -45,6 +45,7 @@ int main(int argc, char *argv[])
         iov[i].iov_len  = BUF_LEN;
     }
 
+    printf("Key something:\n");
     //read stdin.
     nread = readv(STDIN_FILENO, iov, IO_VECTOR_LEN);
     if(nread == -1)
