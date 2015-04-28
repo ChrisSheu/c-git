@@ -39,10 +39,11 @@ int main(int argc, char *argv[])
 
     int ret = -1;
 
-    fd = open("somefile", O_RDWR | O_CREAT);
-    if(fd<0) {
-        perror("open");
-        exit(1);
+    fd = open("somefile", O_RDWR | O_CREAT, 0755);
+    if(fd < 0)
+    {
+        printf("open fail...%d, %s \n", fd, strerror(errno));
+        return -1;
     }
 
 #ifdef FCNTL_LOCK
@@ -53,16 +54,26 @@ int main(int argc, char *argv[])
         return 0;
     }
 struct flock lock;
-fcntl(fd, F_GETLK, lock);
+ret = fcntl(fd, F_GETLK, lock);
+    if(ret < 0)
+    {
+        printf("fcntl fail...%d, %s \n", ret, strerror(errno));
+        return -1;
+    }
+
 if(lock.l_type==F_RDLCK)
- printf("\n(%s:%d)\033[0;33m=========RDLCK==================\033[m\n",__func__,__LINE__);
+ printf("\n(%s:%d)\033[0;33m  RDLCK  \033[m\n",__func__,__LINE__);
 else if(lock.l_type==F_WRLCK)
- printf("\n(%s:%d)\033[0;33m=========WRLCK==================\033[m\n",__func__,__LINE__);
+ printf("\n(%s:%d)\033[0;33m  WRLCK  \033[m\n",__func__,__LINE__);
 else
- printf("\n(%s:%d)\033[0;33m============unknown===============\033[m\n",__func__,__LINE__);
+ printf("\n(%s:%d)\033[0;33m  UNLCK  \033[m\n",__func__,__LINE__);
 
     ret = write(fd, "I write again\n", strlen("I write again\n"));
-    printf("\n(%s:%d)\033[0;33m===========ret=%d===============\033[m\n",__func__,__LINE__, ret);
+    if(ret < 0)
+    {
+        printf("write fail...%d, %s \n", ret, strerror(errno));
+        return -1;
+    }
 #endif
 
 /*  in book.....
@@ -71,15 +82,57 @@ else
 */
 
     save_fd = dup(STDOUT_FILENO);                     //save_fd refer stdout[1].
-    write(save_fd, "Hello\n", strlen("Hello\n"));     //write "Hello\n" into   save_fd -> stdout.
+    if(save_fd < 0)
+    {
+        printf("dup fail...%d, %s \n", save_fd, strerror(errno));
+        return -1;
+    }
+
+    ret = write(save_fd, "Hello\n", strlen("Hello\n"));     //write "Hello\n" into   save_fd -> stdout.
+    if(ret < 0)
+    {
+        printf("write fail...%d, %s \n", ret, strerror(errno));
+        return -1;
+    }
+
 
     close(save_fd);
-    dup2(fd, save_fd);                                //save_fd refer fd[somefile]
-    write(save_fd, "save_fd\n", strlen("save_fd\n")); //write "save_fd\n" into save_fd.
-    write(fd, "fd\n", strlen("fd\n"));                //write "fd\n"      into      fd.
+    ret = dup2(fd, save_fd);                                //save_fd refer fd[somefile]
+    if(ret < 0)
+    {
+        printf("dup2 fail...%d, %s \n", ret, strerror(errno));
+        return -1;
+    }
+//TODO write success!! ?? proc/xxxx/fd not display.
+//write(ret, "123",3);
 
-    dup2(STDOUT_FILENO, fd);                          //fd refer stdout[1].
-    write(fd, msg, strlen(msg));                      //write  msg        into      fd -> stdout.
+    ret = write(save_fd, "save_fd\n", strlen("save_fd\n")); //write "save_fd\n" into save_fd.
+    if(ret < 0)
+    {
+        printf("write fail...%d, %s \n", ret, strerror(errno));
+        return -1;
+    }
+
+    ret = write(fd, "fd\n", strlen("fd\n"));                //write "fd\n"      into      fd.
+    if(ret < 0)
+    {
+        printf("write fail...%d, %s \n", ret, strerror(errno));
+        return -1;
+    }
+
+    ret = dup2(STDOUT_FILENO, fd);                          //fd refer stdout[1].
+    if(ret < 0)
+    {
+        printf("dup2 fail...%d, %s \n", ret, strerror(errno));
+        return -1;
+    }
+
+    ret = write(fd, msg, strlen(msg));                      //write  msg        into      fd -> stdout.
+    if(ret < 0)
+    {
+        printf("write fail...%d, %s \n", ret, strerror(errno));
+        return -1;
+    }
 
 
     printf("Press Any Key to Stop");
