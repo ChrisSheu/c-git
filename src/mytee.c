@@ -1,6 +1,6 @@
 /* function [tee]  ssize_t tee(int fd_in, int fd_out, size_t len, unsigned int flags);
  *
- * fd_in  : src fd.
+ * fd_in  : src fd. 
  * fd_out : target fd.
  * len    : copy length.(INT_MAX): (32-bit)-2147483647~2147483647(0x7FFFFFFF)
  * flags  :
