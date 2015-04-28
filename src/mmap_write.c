@@ -68,6 +68,9 @@ int main(int argc, char *argv[])
         map[i] = i + 1;
     }
 
+//TODO lock here, and execute PROT_READ, it can read data successfully.
+//getchar();
+
     //free map.
     if (munmap(map, FILESIZE) == -1) {
         printf("Error un-mmapping the file \n");
