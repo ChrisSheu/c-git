@@ -34,12 +34,14 @@ int readpipe_to_stdoutpipe(int srcfd, int desfd)
     char in = 0;
 
     //TODO [tee]   srcfd transfer to desfd. return a number of bytes are written.
-    ret = tee(srcfd,  desfd,  32768, SPLICE_F_NONBLOCK);
+    ret = tee(srcfd,  desfd,  strlen("Hello"), SPLICE_F_NONBLOCK);
     if(ret < 0)
     {
         printf("\n(%s:%d)\033[0;34m tee error...%d, %s \033[m\n",__func__,__LINE__, ret, strerror(errno));
         return -2;
     }
+    else
+    printf("\n");
 
     return 0;
 
