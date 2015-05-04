@@ -11,7 +11,8 @@
 
 ## Content
 * <a href="https://github.com/ChrisSheu/c-git/tree/ntp_client" target="_blank">ntp client</a> : only client request.
-* <a href="https://github.com/ChrisSheu/c-git/tree/ntp_client" target="_blank">shared memory</a> : read and write.
+* <a href="https://github.com/ChrisSheu/c-git/tree/share_memory" target="_blank">shared memory</a> : read and write.
+* <a href="https://github.com/ChrisSheu/c-git/tree/pipe" target="_blank">pipe</a> : Linux IPC-PIPE example, write and read.
 
 
 ## Usage
