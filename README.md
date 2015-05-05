@@ -55,7 +55,7 @@ cd [yourbranch-name]
 * Both stdout and file named somefile are be written by file descriptors(stdout, fd, save_fd) respectively. 
 
 <div>
-<img src="https://raw.githubusercontent.com/ChrisSheu/c-git/dup_dup2/docs/result.PNG" align="left|bottom" height="300" width="400">
+<img src="https://raw.githubusercontent.com/ChrisSheu/c-git/dup_dup2/docs/result.PNG" align="left|bottom" height="100" width="500">
 </div>
 
 ## License
