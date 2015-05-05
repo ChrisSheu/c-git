@@ -78,10 +78,10 @@ else
 
 /*  in book.....
     close(STDOUT_FILENO);
-    dup(save_fd);                                     //save_fd refer stdout[1].
+    dup(save_fd);                                     //stdout refer save_fd.
 */
 
-    save_fd = dup(STDOUT_FILENO);                     //save_fd refer stdout[1].
+    save_fd = dup(STDOUT_FILENO);                     //save_fd refer stdout.
     if(save_fd < 0)
     {
         printf("dup fail...%d, %s \n", save_fd, strerror(errno));
@@ -103,8 +103,6 @@ else
         printf("dup2 fail...%d, %s \n", ret, strerror(errno));
         return -1;
     }
-//TODO write success!! ?? proc/xxxx/fd not display.
-//write(ret, "123",3);
 
     ret = write(save_fd, "save_fd\n", strlen("save_fd\n")); //write "save_fd\n" into save_fd.
     if(ret < 0)
