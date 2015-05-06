@@ -14,6 +14,7 @@
 * <a href="https://github.com/ChrisSheu/c-git/tree/share_memory" target="_blank">shared memory</a> : read and write.
 * <a href="https://github.com/ChrisSheu/c-git/tree/pipe" target="_blank">pipe</a> : Linux IPC-PIPE example, write and read.
 * <a href="https://github.com/ChrisSheu/c-git/tree/dup_dup2" target="_blank">dup dup2</a> : How to copy file descriptor?? see this!!
+* <a href="https://github.com/ChrisSheu/c-git/tree/fcntl" target="_blank">fcntl</a> : A simple example. file descriptor is set non-blocking and blocking by fcntl function.
 
 
 ## Usage
