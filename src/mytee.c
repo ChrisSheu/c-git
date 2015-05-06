@@ -32,7 +32,7 @@ int readpipe_to_stdoutpipe(int srcfd, int desfd)
 
     //TODO [tee]   srcfd transfer to desfd. return a number of bytes are written.
     //why can't use unfixed length[strlen("Hello")]? strlen("Hello") is same with client msg.
-    ret = tee(srcfd,  desfd,  strlen("Hello"), SPLICE_F_NONBLOCK);
+    ret = tee(srcfd,  desfd,  strlen("Hello\n"), SPLICE_F_NONBLOCK);
     if(ret < 0)
     {
         printf("\n(%s:%d)\033[0;34m tee error...%d, %s \033[m\n",__func__,__LINE__, ret, strerror(errno));
