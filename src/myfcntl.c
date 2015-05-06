@@ -8,7 +8,7 @@
 
 /* [fcntl] function.
  * 
- * 
+ * this example set file descriptor non-blocking and blocking.
  * 
  * 
  * 
@@ -60,7 +60,7 @@ void readpipe(void *r_fd)
 }
 
 //open thread.
-int init(int *readfd)
+int open_read_thread(int *readfd)
 {
     int ret = 0;
     pthread_t id;
@@ -151,10 +151,11 @@ int main(int argc, char *argv[])
         return -1;
     }
 
-    ret = init(&mypipe[0]);
+    //open_a thread read pipe.
+    ret = open_read_thread(&mypipe[0]);
     if(ret < 0)
     {
-        printf ("init error!...%d\n", ret);
+        printf ("open_read_thread error!...%d\n", ret);
         return -1;
     }
 
@@ -167,6 +168,7 @@ int main(int argc, char *argv[])
     {
         if((readc = fgetc(stdin)) != EOF)
         {
+            //check specified notation which determine file descriptor blocking or non-blocking.
             if(readc == '$')
             {
                 if(ret = set_fd_nonblocking(mypipe[0]) == 0)
