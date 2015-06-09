@@ -1,3 +1,10 @@
+/*
+ * This file is used for receive/send device command via select.
+ *
+ * TODO select    : 如果/dev/mytest 是一個檔案，select always return > 0. refer to http://stackoverflow.com/questions/7022810/select-doesnt-wait-any-changes.
+ * TODO POSIX say : File descriptors associated with regular files shall always select true for ready to read, ready to write, and error conditions.
+ *
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
@@ -7,12 +14,21 @@
 #include <fcntl.h>
 #include <string.h>
 #include <errno.h>
+#include <sys/termios.h>
 
 #define CMD_LEN           256
 #define MCU_DEV_STR_LEN   20
 #define SELECT_TIMEOUT    2
-static char MCU_DEV[][MCU_DEV_STR_LEN] = { "test.file", "test.file2"};
 
+//input want handle devices.
+static char MCU_DEV[][MCU_DEV_STR_LEN] = { "/dev/mytest", "/dev/mytest2"};
+
+/*
+ * this function will return fd of device.
+ *
+ * @src_mcu_dev_str : the string array of device path.
+ *
+ */
 int mcu_dev_init( char *src_mcu_dev_str)
 {
     int fd = -1;
@@ -25,11 +41,19 @@ int mcu_dev_init( char *src_mcu_dev_str)
 
     //TODO for Debug.
     printf("init: %s \n",  src_mcu_dev_str);
-    fd = open( src_mcu_dev_str, O_RDONLY);
+    fd = open( src_mcu_dev_str, O_RDONLY | O_NONBLOCK);
 
     return fd;
 }
 
+/*
+ * Append fd in fd_set.
+ *
+ * @src_arr_fd     : all device fds.
+ * @src_arr_fd_len : the length of fds.
+ * @dst_fds        : target fd_set.
+ *
+ */
 int append_fdset(int *src_arr_fd, int src_arr_fd_len, fd_set *dst_fds)
 {
     int i = -1;
@@ -40,17 +64,20 @@ int append_fdset(int *src_arr_fd, int src_arr_fd_len, fd_set *dst_fds)
         return -1;
     }
 
-    FD_ZERO( dst_fds);
- printf("\n(%s:%d)\033[0;34m======= ========\033[m\n",__func__,__LINE__);
     for( i = 0; i < src_arr_fd_len; i++)
-    {
-        printf("\n(%s:%d)\033[0;34m append %d \033[m\n",__func__,__LINE__, src_arr_fd[i]);
         FD_SET( src_arr_fd[i], dst_fds);
-    }
 
     return 0;
 }
 
+/*
+ * this function will return the maximum in this fd array.
+ *
+ * @dst_max_fd     : target maximum.
+ * @src_arr_fd     : the fd array.
+ * @src_arr_fd_len : the length of fd array.
+ *
+ */
 int get_maxfd(int *dst_max_fd, int *src_arr_fd, int src_arr_fd_len)
 {
     int i = -1;
@@ -68,29 +95,6 @@ int get_maxfd(int *dst_max_fd, int *src_arr_fd, int src_arr_fd_len)
     return 0;
 }
 
-int get_ready_fd(int *arr_fd, int arr_fd_len, fd_set *fds)
-{
-    int fd = -1;
-    int i  = -1;
-
-    if((arr_fd_len <= 0) || (arr_fd == NULL) || (fds == NULL))
-    {
-        printf(" argument is invalid... \n");
-        return -1;
-    }
-
-    for( i = 0; i < arr_fd_len; i++)
-    {
-        if(FD_ISSET(arr_fd[i], fds))
-        {
-            fd = arr_fd[i];
-            printf("\n(%s:%d)\033[0;34m %d fd:%d \033[m\n",__func__,__LINE__, i, fd);
-        }
-    }
-
-    return fd;
-}
-
 int main(void)
 {
     int mcu_fd[sizeof(MCU_DEV) / MCU_DEV_STR_LEN];
@@ -101,7 +105,7 @@ int main(void)
     int retval = -1;
     int i = -1;
     char cmd_str[CMD_LEN] = {0};
-
+    int select_ret = -1;
 
     if( mcu_fd_num <= 0)
     {
@@ -126,6 +130,7 @@ int main(void)
     {
         /* Watch stdin (fd 0) to see when it has input. */
         FD_ZERO(&rfds);
+
         retval = append_fdset( mcu_fd, mcu_fd_num, &rfds);
         if(retval < 0)
         {
@@ -142,7 +147,7 @@ int main(void)
         /* Wait up to five seconds. */
         tv.tv_sec  = SELECT_TIMEOUT;
         tv.tv_usec = 0;
-        switch( select( max_fd +1, &rfds, NULL, NULL, &tv))
+        switch( (select_ret = select( max_fd +1, &rfds, NULL, NULL, &tv)))
         {
             case -1:
                 printf(" select fail...errno = %d, %s \n", errno, strerror(errno));
@@ -152,27 +157,30 @@ int main(void)
                 break;
             default:
                 {
-                    //TODO get data. 
                     int tmpfd = -1;
-                    tmpfd = get_ready_fd( mcu_fd, mcu_fd_num, &rfds);
-                    if(tmpfd < 0)
+                    //TODO get data.
+                    for( i = 0; i < mcu_fd_num; i++)
                     {
-                        printf(" get ready mcu-fd fail...%d \n", tmpfd);
-                        break;
-                    }
+                        if(FD_ISSET( mcu_fd[i], &rfds))
+                        {
+                            tmpfd = mcu_fd[i];
+                            if(tmpfd < 0)
+                            {
+                                printf(" get ready mcu-fd fail...%d \n", tmpfd);
+                                break;
+                            }
 
- printf("\n(%s:%d)\033[0;34m tmpfd:%d \033[m\n",__func__,__LINE__, tmpfd);
-                    retval = read( tmpfd, cmd_str, CMD_LEN);
-                    if(retval < 0)
-                    {
-                        printf(" read ready mcu-fd fail...ret:%d, errno:%d, errstr:%s \n", retval, errno, strerror(errno));
-                        break;
-                    }
-                    else if(retval == 0)
-                            break;
-                    else
-                    {
-                        printf("\n(%s:%d)\033[0;34m capture string:%s \033[m\n",__func__,__LINE__, cmd_str);
+                            retval = read( tmpfd, cmd_str, sizeof(cmd_str));
+                            if(retval < 0)
+                                printf(" read ready mcu-fd fail...ret:%d, errno:%d, errstr:%s \n", retval, errno, strerror(errno));
+                            else if( retval == 0)
+                            {
+                                //printf(" finish errno:%d str:%s \n", errno, strerror(errno));
+                                continue;
+                            }
+                            else
+                                printf("\n(%s:%d)\033[0;34m select_ret:%d fd:%d capture string:%s \033[m\n",__func__,__LINE__, select_ret, tmpfd, cmd_str);
+                        }
                     }
                 }
                 break;
@@ -181,6 +189,5 @@ int main(void)
         sleep(1);
     }
 
-    exit(EXIT_SUCCESS);
-
+    return 0;
 }
