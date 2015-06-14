@@ -13,16 +13,16 @@ OBJDUMP       = $(CROSS_COMPILE)objdump
 INCS = -I ./ -I include/
 CFLAGS = $(INCS) -pthread
 
-SAMPLE_OBJS = src/sample.o
+DEADLOCK_OBJS = src/deadlock.o
 
-sample: $(SAMPLE_OBJS)
-	$(CC) -o $@ $(SAMPLE_OBJS) $(CFLAGS)
+deadlock: $(DEADLOCK_OBJS)
+	$(CC) -o $@ $(DEADLOCK_OBJS) $(CFLAGS)
 	$(STRIP) $@
 	mkdir -p output
 	-mv $@ output/$@
 	ls -lFh --color output/
 
-all: sample
+all: deadlock
 
 clean:
 	-rm -f src/*.o
