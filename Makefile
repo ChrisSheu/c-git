@@ -14,6 +14,8 @@ INCS = -I ./ -I include/
 CFLAGS = $(INCS) -pthread
 
 DEADLOCK_OBJS = src/deadlock.o
+FORK_OBJS = src/fork.o
+ATFORK_OBJS = src/fork_atfork.o
 
 deadlock: $(DEADLOCK_OBJS)
 	$(CC) -o $@ $(DEADLOCK_OBJS) $(CFLAGS)
@@ -22,7 +24,21 @@ deadlock: $(DEADLOCK_OBJS)
 	-mv $@ output/$@
 	ls -lFh --color output/
 
-all: deadlock
+fork: $(FORK_OBJS)
+	$(CC) -o $@ $(FORK_OBJS) $(CFLAGS)
+	$(STRIP) $@
+	mkdir -p output
+	-mv $@ output/$@
+	ls -lFh --color output/
+
+atfork: $(ATFORK_OBJS)
+	$(CC) -o $@ $(ATFORK_OBJS) $(CFLAGS)
+	$(STRIP) $@
+	mkdir -p output
+	-mv $@ output/$@
+	ls -lFh --color output/
+
+all: deadlock fork atfork
 
 clean:
 	-rm -f src/*.o
