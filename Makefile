@@ -1,7 +1,7 @@
 #vim: set ts=8 sw=8 noet:
     
 PWD_DIR = $(pwd)
-#CROSS_COMPILE = arm-linux-
+CROSS_COMPILE = arm-hisiv100nptl-linux-
 CC            = $(CROSS_COMPILE)gcc
 CXX           = $(CROSS_COMPILE)g++
 CPLUSPLUS     = $(CROSS_COMPILE)g++
