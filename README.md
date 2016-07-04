@@ -1,25 +1,28 @@
-## c-git
+## picocom
 
 [![PayPayl donate button](https://img.shields.io/badge/paypal-donate-yellow.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JCT98Z2B5WMM8 "Donate once-off to this project using Paypal")
 
-* This is a c examples git(many functions in other branches). In here has many C examples can be executed succefully. Support source codes and graphs of execution can fastly understand the function how to work. If create new function, you can find it by following [Content](#content) entries.
+* It's a picocom tool for get serial port information.
 
-## Overviews
-* [Content](#content)
+## Overview
+
+* [Getting Started](#getting-started)
 * [Usage](#usage)
 * [License](#license)
 
-## Content
-* <a href="https://github.com/ChrisSheu/c-git/tree/ntp_client" target="_blank">ntp client</a> : only client request.
-* <a href="https://github.com/ChrisSheu/c-git/tree/share_memory" target="_blank">shared memory</a> : read and write.
-* <a href="https://github.com/ChrisSheu/c-git/tree/pipe" target="_blank">pipe</a> : Linux IPC-PIPE example, write and read.
-* <a href="https://github.com/ChrisSheu/c-git/tree/dup_dup2" target="_blank">dup dup2</a> : How to copy file descriptor?? see this!!
-* <a href="https://github.com/ChrisSheu/c-git/tree/fcntl" target="_blank">fcntl</a> : A simple example. file descriptor is set non-blocking and blocking by fcntl function.
-
+## Getting Started
+git clone https://github.com/ChrisSheu/c-git.git<br>
+cd c-git<br>
+git checkout origin/picocom -b [local-branch-name]<br>
+cd [local-branch-name]
 
 ## Usage
-Just click the entry to go the specified branch.
+//following command will output file(myfcntl) in output folder.<br>
+`Usage ./build_picocom.sh [none or crosscompile]`<br><br>
+`ex(none): ./build_picocom.sh none`<br><br>
+`ex(arm): ./build_picocom.sh arm-xxx-linux-`<br><br>
+
+* now you can enjoy picocom!<br>
 
 ## License
-
-* SEE each branch~
+* See LINCENSE in Folder.
