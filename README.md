@@ -17,7 +17,6 @@ git checkout origin/picocom -b [local-branch-name]<br>
 cd [local-branch-name]
 
 ## Usage
-//following command will output file(myfcntl) in output folder.<br>
 `Usage ./build_picocom.sh [none or crosscompile]`<br><br>
 `ex(none): ./build_picocom.sh none`<br><br>
 `ex(arm): ./build_picocom.sh arm-xxx-linux-`<br><br>
