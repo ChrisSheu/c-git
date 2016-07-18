@@ -16,6 +16,7 @@
 * <a href="https://github.com/ChrisSheu/c-git/tree/dup_dup2" target="_blank">dup dup2</a> : How to copy file descriptor?? see this!!
 * <a href="https://github.com/ChrisSheu/c-git/tree/fcntl" target="_blank">fcntl</a> : A simple example. file descriptor is set non-blocking and blocking by fcntl function.
 * <a href="https://github.com/ChrisSheu/c-git/tree/picocom" target="_blank">Picocom</a> : minimal dumb-terminal emulation program, included cross-compile.
+* <a href="https://github.com/ChrisSheu/c-git/tree/SerialPort_Send_to_Dev" target="_blank">SerialPort_Send_to_Dev</a> : It's a bash tool that send data to specified device node at specified baudrate. 
 
 
 ## Usage
