@@ -2,7 +2,7 @@
 
 [![PayPayl donate button](https://img.shields.io/badge/paypal-donate-yellow.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JCT98Z2B5WMM8 "Donate once-off to this project using Paypal")
 
-* It's a picocom tool for get serial port information.
+* It's a bash tool that Sending data to Device node according content of documents at specified baudrate.
 
 ## Overview
 
@@ -13,15 +13,13 @@
 ## Getting Started
 git clone https://github.com/ChrisSheu/c-git.git<br>
 cd c-git<br>
-git checkout origin/picocom -b [local-branch-name]<br>
+git checkout origin/SerialPort_Send_to_Dev -b [local-branch-name]<br>
 cd [local-branch-name]
 
 ## Usage
-`Usage ./build_picocom.sh [none or crosscompile]`<br><br>
-`ex(none): ./build_picocom.sh none`<br><br>
-`ex(arm): ./build_picocom.sh arm-xxx-linux-`<br><br>
+`./send_to_serial_port.sh <file> <device_node> <baud_rate>`<br><br>
 
-* now you can enjoy picocom!<br>
+* now you can this tool!<br>
 
 ## License
-* See LINCENSE in Folder.
+* MIT LINCENSE.
