@@ -5,9 +5,9 @@ VERSION="-1.4"
 FOLDER=$PICOCOM$VERSION/
 
 if [ $# -ne 1 ]; then
-    echo "Usage $0 [none or crosscompile]"
+    echo "Usage $0 [default or crosscompile]"
     echo "ex(none): $0 none"
-    echo "ex(arm): $0 arm-hisiv100nptl-linux-"
+    echo "ex(arm): $0 arm-xxx-linux-"
     exit 1
 fi
 
