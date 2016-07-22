@@ -2,7 +2,7 @@
 
 [![PayPayl donate button](https://img.shields.io/badge/paypal-donate-yellow.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JCT98Z2B5WMM8 "Donate once-off to this project using Paypal")
 
-* It's a bash tool that Sending data to Device node according content of documents at specified baudrate.
+* It's a bash tool that Sending data(a line unit) to Device node according content of documents at specified baudrate.
 
 ## Overview
 
