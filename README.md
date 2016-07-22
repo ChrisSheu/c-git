@@ -1,8 +1,8 @@
-## picocom
+## ext filesystem sorce code
 
 [![PayPayl donate button](https://img.shields.io/badge/paypal-donate-yellow.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JCT98Z2B5WMM8 "Donate once-off to this project using Paypal")
 
-* It's a bash tool that Sending data(a line unit) to Device node according content of documents at specified baudrate.
+* It's a ext filesystem source and you can cross-compile it via install_ext_fs.sh
 
 ## Overview
 
@@ -13,13 +13,16 @@
 ## Getting Started
 git clone https://github.com/ChrisSheu/c-git.git<br>
 cd c-git<br>
-git checkout origin/SerialPort_Send_to_Dev -b [local-branch-name]<br>
+git checkout origin/ext_filesystem_sorce_code -b [local-branch-name]<br>
 cd [local-branch-name]
 
 ## Usage
-`./send_to_serial_port.sh <file> <device_node> <baud_rate>`<br><br>
+`tar xvf e2fsprogs-1.41.11.tar.gz`<br>
+`Usage ./install_ext_fs.sh [default or crosscompile] <folder>`<br>
+`ex(none): ./install_ext_fs.sh none e2fsprogs-1.41.11`<br>
+`ex(arm): ./install_ext_fs.sh arm-xxx-linux e2fsprogs-1.41.11`<br><br>
 
-* now you can this tool!<br>
+* now you can enjoy this tool!<br>
 
 ## License
-* MIT LINCENSE.
+* See Lincese in the folder.
