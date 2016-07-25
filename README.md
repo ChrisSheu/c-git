@@ -8,7 +8,7 @@
 
 * [Getting Started](#getting-started)
 * [Usage](#usage)
-* [How to Compile](#how to compile)
+* [How to Compile](#how-to-compile)
 * [License](#license)
 
 ## Getting Started
