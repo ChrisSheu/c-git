@@ -18,9 +18,9 @@ git checkout origin/watch_FileDescriptor -b [local-branch-name]<br>
 cd [local-branch-name]
 
 ## How to Compile
-make clean all
-      or
-make CROSS_COMPILE=arm-xxx-linux- clean all
+make clean all<br>
+　　　or<br>
+make CROSS_COMPILE=arm-xxx-linux- clean all<br>
 
 ## Usage
 `./watch_file_descriptor.c <pid> <timer>`<br>
