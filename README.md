@@ -25,4 +25,4 @@ cd [local-branch-name]
 * now you can this tool!<br>
 
 ## License
-* [Redirect](#https://ppp.samba.org/index.html)
+* [Redirect](https://ppp.samba.org/index.html)
