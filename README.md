@@ -19,10 +19,10 @@ cd [local-branch-name]
 
 ## Usage
 `Usage ./install_ppp.sh [gcc or crosscompile] <folder>`<br>
-`ex(none): ./install_ppp.sh none ppp-2.4.4`<br>
+`ex(gcc): ./install_ppp.sh none ppp-2.4.4`<br>
 `ex(arm): ./install_ppp.sh arm-xxx-linux-gcc ppp-2.4.4`<br><br>
 
 * now you can this tool!<br>
 
 ## License
-* Redirect(https://ppp.samba.org/index.html)
+* [Redirect](#https://ppp.samba.org/index.html)
