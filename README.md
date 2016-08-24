@@ -1,9 +1,10 @@
-## ppp pppd library
+## [curl source code crosscompile] curl library
 
 [![PayPayl donate button](https://img.shields.io/badge/paypal-donate-yellow.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JCT98Z2B5WMM8 "Donate once-off to this project using Paypal")
 
-* It's ppp library and version 2.4.4.
-* This script can help you to compile or cross-compile.
+* It's curl library and version 7.37.1
+* This script can help you to compile or cross-compile it.
+* official website: https://curl.haxx.se/
 
 ## Overview
 
@@ -14,15 +15,15 @@
 ## Getting Started
 git clone https://github.com/ChrisSheu/c-git.git<br>
 cd c-git<br>
-git checkout origin/pppd_library -b [local-branch-name]<br>
+git checkout origin/curl_library -b [local-branch-name]<br>
 cd [local-branch-name]
 
 ## Usage
-`Usage ./install_ppp.sh [gcc or crosscompile] <folder>`<br>
-`ex(gcc): ./install_ppp.sh none ppp-2.4.4`<br>
-`ex(arm): ./install_ppp.sh arm-xxx-linux-gcc ppp-2.4.4`<br><br>
+`Usage ./install_curl.sh [gcc or crosscompile] <folder>`<br>
+`ex(gcc): ./install_curl.sh gcc curl-7.37.1`<br>
+`ex(arm): ./install_curl.sh arm-xxx-linux curl-7.37.1`<br><br>
 
-* now you can this tool!<br>
+* now you can enjoy this tool!<br>
 
 ## License
-* [Redirect](https://ppp.samba.org/index.html)
+* [Redirect](https://curl.haxx.se/docs/copyright.html)
